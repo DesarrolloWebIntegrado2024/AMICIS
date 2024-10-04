@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión en AMICIS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css"> <!-- Enlace a tu hoja de estilos -->
+</head>
+<body>
+<main class="informacion__contacto contenedor-sm">
+    <h1>Inicia Sesión en AMICIS</h1>
+
+    <!-- Mostrar mensajes de error si existen -->
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form th:action="@{/usuarios/login}" method="POST" class="formulario">
+        <div class="campo">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="Tu email" required>
+        </div>
+
+        <div class="campo">
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" placeholder="Tu Contraseña" required>
+        </div>
+
+        <div class="accion">
+            <input type="submit" value="Iniciar Sesión" class="boton">
+        </div>
+    </form>
+</main>
+</body>
+</html>

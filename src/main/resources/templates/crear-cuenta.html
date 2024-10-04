@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro AMICIS</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css"> <!-- Enlace a tu hoja de estilos -->
+</head>
+<body>
+<main class="informacion__contacto main contenedor-m">
+    <h1>Únete al equipo de AMICIS creando tu cuenta ahora</h1>
+    <p>¡Estás a un paso de marcar la diferencia! Regístrate hoy y comienza a colaborar con nuestra comunidad de
+        voluntarios comprometidos. Juntos, podemos llevar esperanza y ayuda a quienes más lo necesitan.</p>
+</main>
+
+<section class="contenedor-sm">
+    <form th:action="@{/usuarios/registrar}" method="POST" th:object="${usuario}" class="formulario">
+        <h2>Crea tu cuenta</h2>
+
+        <div class="campo">
+            <label for="nombreUsuario">Nombre</label>
+            <input type="text" name="nombreUsuario" id="nombreUsuario" th:field="*{nombreUsuario}" placeholder="Nombre completo" required>
+        </div>
+
+        <div class="campo">
+            <label for="telefonoUsuario">Teléfono</label>
+            <input type="text" name="telefonoUsuario" id="telefonoUsuario" th:field="*{telefonoUsuario}" placeholder="Tu teléfono" required>
+        </div>
+
+        <div class="campo">
+            <label for="emailUsuario">Email</label>
+            <input type="email" name="emailUsuario" id="emailUsuario" th:field="*{emailUsuario}" placeholder="Tu email" required>
+        </div>
+
+        <div class="campo">
+            <label for="contraseniaUsuario">Contraseña</label>
+            <input type="password" name="contraseniaUsuario" id="contraseniaUsuario" th:field="*{contraseniaUsuario}" placeholder="Tu Contraseña" required>
+        </div>
+
+        <div class="accion">
+            <input type="submit" value="Crear cuenta" class="boton">
+        </div>
+        <div class="acciones">
+            <a href="/login" class="acciones__enlace">¿Ya tienes cuenta? Inicia Sesión</a>
+        </div>
+    </form>
+
+    <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+</section>
+</body>
+</html>
