@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Información AMICIS</title>
-  <link rel="stylesheet" href="../static/css/style.css"> <!-- Enlace a tu hoja de estilos -->
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <main class="informacion__contacto main contenedor-m">
@@ -13,32 +13,40 @@
 </main>
 
 <section class="seccion contenedor-sm">
-  <form action="formulario" method="POST" class="formulario">
+  <!-- Mostrar mensajes si existen -->
+  <div th:if="${mensaje}" class="alert alert-success">
+    <p th:text="${mensaje}"></p>
+  </div>
+  <div th:if="${error}" class="alert alert-danger">
+    <p th:text="${error}"></p>
+  </div>
+
+  <form th:action="@{/contacto}" method="POST" th:object="${mensajeContacto}" class="formulario">
     <h2>Llena el formulario de contacto para recibir tu petición</h2>
 
     <div class="campo">
       <label for="nombre">Nombre</label>
-      <input type="text" name="nombre" id="nombre" placeholder="Nombre completo" required>
+      <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre completo" required>
     </div>
 
     <div class="campo">
       <label for="telefono">Teléfono</label>
-      <input type="tel" name="telefono" id="telefono" placeholder="Tu teléfono" pattern="[0-9]{10}" required>
+      <input type="tel" th:field="*{telefono}" id="telefono" placeholder="Tu teléfono" pattern="[0-9]{10}" required>
     </div>
 
     <div class="campo">
       <label for="email">Email</label>
-      <input type="email" name="email" id="email" placeholder="Tu email" required>
+      <input type="email" th:field="*{email}" id="email" placeholder="Tu email" required>
     </div>
 
     <div class="campo">
       <label for="mensaje">Mensaje</label>
-      <textarea name="mensaje" id="mensaje" placeholder="Tu mensaje" rows="5" required></textarea>
+      <textarea th:field="*{mensaje}" id="mensaje" placeholder="Tu mensaje" rows="5" required></textarea>
     </div>
 
     <div class="campo">
       <label for="asunto">Asunto</label>
-      <select name="asunto" id="asunto" required>
+      <select th:field="*{asunto}" id="asunto" required>
         <option value="">Selecciona un asunto</option>
         <option value="consulta">Consulta</option>
         <option value="soporte">Soporte</option>
