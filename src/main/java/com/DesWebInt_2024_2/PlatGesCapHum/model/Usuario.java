@@ -23,18 +23,22 @@ public class Usuario {
     @Column(nullable = false)
     private String contraseniaUsuario;
 
+    @Column(name = "tipo_usuario") // Campo para el tipo de usuario
+    private String tipoUsuario;
+
     public Usuario() {
     }
 
-    public Usuario(Long idUsuario, String nombreUsuario, String emailUsuario, String telefonoUsuario, String contraseniaUsuario) {
+    public Usuario(Long idUsuario, String nombreUsuario, String emailUsuario, String telefonoUsuario, String contraseniaUsuario, String tipoUsuario) {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.emailUsuario = emailUsuario;
         this.telefonoUsuario = telefonoUsuario;
         this.contraseniaUsuario = contraseniaUsuario;
+        this.tipoUsuario = tipoUsuario;
     }
 
-    // Getters y Setters
+    // Getters y setters
     public Long getIdUsuario() {
         return idUsuario;
     }
@@ -74,4 +78,14 @@ public class Usuario {
     public void setContraseniaUsuario(String contraseniaUsuario) {
         this.contraseniaUsuario = contraseniaUsuario;
     }
+
+    public String getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(String tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
 }
+
+

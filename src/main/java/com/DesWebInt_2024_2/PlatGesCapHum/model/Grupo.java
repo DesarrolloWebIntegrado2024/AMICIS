@@ -1,7 +1,6 @@
 package com.DesWebInt_2024_2.PlatGesCapHum.model;
 
 import jakarta.persistence.*;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,32 +22,24 @@ public class Grupo {
             joinColumns = @JoinColumn(name = "grupo_id"),
             inverseJoinColumns = @JoinColumn(name = "voluntario_id")
     )
-    private Set<Usuario> voluntarios = new HashSet<>();
-
+    private Set<Voluntario> voluntarios = new HashSet<>();
 
     public Grupo() {
     }
 
-    public Grupo(Long id, Tarea tarea, Set<Usuario> voluntarios) {
+    public Grupo(Long id, Tarea tarea, Set<Voluntario> voluntarios) {
         this.id = id;
         this.tarea = tarea;
         this.voluntarios = voluntarios;
     }
 
+    // Getters y setters
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Set<Usuario> getVoluntarios() {
-        return voluntarios;
-    }
-
-    public void setVoluntarios(Set<Usuario> voluntarios) {
-        this.voluntarios = voluntarios;
     }
 
     public Tarea getTarea() {
@@ -58,5 +49,12 @@ public class Grupo {
     public void setTarea(Tarea tarea) {
         this.tarea = tarea;
     }
-}
 
+    public Set<Voluntario> getVoluntarios() {
+        return voluntarios;
+    }
+
+    public void setVoluntarios(Set<Voluntario> voluntarios) {
+        this.voluntarios = voluntarios;
+    }
+}

@@ -1,8 +1,12 @@
 package com.DesWebInt_2024_2.PlatGesCapHum.service;
 
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Tarea;
 import com.DesWebInt_2024_2.PlatGesCapHum.repository.TareaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TareaService {
@@ -10,20 +14,15 @@ public class TareaService {
     @Autowired
     private TareaRepository tareaRepository;
 
-    /*public Tarea crearTarea(Tarea tarea) {
+    public void crearTarea(Tarea tarea) {
+        // Aquí podrías agregar lógica adicional antes de guardar
+        tareaRepository.save(tarea); // Guarda la tarea en la base de datos
     }
 
-    public List<Tarea> listarTareas() {
-    }*/
-
-    /*public Tarea crearTarea(Tarea tarea) {
-        // Lógica adicional para validar fechas, etc.
-        return tareaRepository.save(tarea);
+    public List<Tarea> obtenerTodasLasTareas() {
+        return tareaRepository.findAll(); // Retorna todas las tareas
     }
-
-    public List<Tarea> listarTareas() {
-        return tareaRepository.findAll();
-    }*/
 }
+
 
 

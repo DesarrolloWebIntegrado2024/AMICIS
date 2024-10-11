@@ -6,11 +6,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "administradores")
 public class Administrador extends Usuario {
-    // Puedes agregar atributos específicos de Administrador si es necesario
 
     public Administrador() {
         super();
+        setTipoUsuario("Administrador"); // Establece el tipo de usuario como "Administrador"
     }
-
 }
 

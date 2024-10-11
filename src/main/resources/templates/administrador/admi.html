@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UpTask - Proyecto</title>
+    <link rel="stylesheet" th:href="@{/css/administrador/admi.css}">
+</head>
+<body>
+<div class="container">
+    <aside>
+        <h1>UpTask</h1>
+        <nav>
+            <ul>
+                <li><a href="#" th:href="@{/tarea}">Tareas</a></li>
+                <li><a href="#" th:href="@{/tarea/crear}">Crear Tarea</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <header>
+            <h2>Lista de Tareas</h2>
+            <a href="#" class="cerrar-sesion">Cerrar Sesión</a>
+        </header>
+
+        <section class="filtros">
+            <label for="filtro">Filtrar Tareas:</label>
+            <select id="filtro">
+                <option value="pendientes">Pendientes</option>
+                <option value="completadas">Completadas</option>
+            </select>
+        </section>
+
+        <section class="lista-tareas">
+            <div th:each="tarea : ${tareas}" class="tarea">
+                <p th:text="${tarea.nombre}">Nombre de la Tarea</p>
+                <div class="acciones">
+                    <button class="btn"
+                            th:class="${tarea.estadoTarea.name() == 'PENDIENTE' ? 'pendiente' : 'completa'}"
+                            th:text="${tarea.estadoTarea.name() == 'PENDIENTE' ? 'Pendiente' : 'Completada'}">
+                    </button>
+                    <button class="btn eliminar" th:onclick="'eliminarTarea(' + ${tarea.id} + ')'">Eliminar</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

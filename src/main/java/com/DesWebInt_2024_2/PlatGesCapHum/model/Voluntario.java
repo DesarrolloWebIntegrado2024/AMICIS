@@ -10,17 +10,15 @@ import java.util.Set;
 @Entity
 @Table(name = "voluntarios")
 public class Voluntario extends Usuario {
-
     @ManyToMany(mappedBy = "voluntarios")
     private Set<Grupo> grupos = new HashSet<>();
 
     public Voluntario() {
+        super();
+        setTipoUsuario("Voluntario"); // Establece el tipo de usuario como "Voluntario"
     }
 
-    public Voluntario(Long idUsuario, String nombreUsuario, String emailUsuario, String telefonoUsuario, String contraseniaUsuario, Set<Grupo> grupos) {
-        super(idUsuario, nombreUsuario, emailUsuario, telefonoUsuario, contraseniaUsuario);
-        this.grupos = grupos;
-    }
+    // Getters y setters...
 
     public Set<Grupo> getGrupos() {
         return grupos;

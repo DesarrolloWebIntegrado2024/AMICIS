@@ -18,8 +18,7 @@ public class Lider extends Voluntario {
         super();
     }
 
-    public Lider(Long idUsuario, String nombreUsuario, String emailUsuario, String telefonoUsuario, String contraseniaUsuario, Set<Grupo> grupos, Set<Tarea> tareasAsignadas) {
-        super(idUsuario, nombreUsuario, emailUsuario, telefonoUsuario, contraseniaUsuario, grupos);
+    public Lider(Set<Tarea> tareasAsignadas) {
         this.tareasAsignadas = tareasAsignadas;
     }
 

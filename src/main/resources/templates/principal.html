@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMICIS</title>
-    <link rel="stylesheet" href="/css/style.css"> <!-- Enlace a tu hoja de estilos -->
+    <link rel="stylesheet" th:href="@{/css/style.css}"> <!-- Enlace a tu hoja de estilos -->
 </head>
+
 <body>
+<!-- Incluir la barra de navegación -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
 <section>
     <div class="container">
         <div class="slider">
@@ -54,19 +59,19 @@
         <h1>Nuestros principios</h1>
         <div class="nosotros__contenido">
             <div class="nosotros__card">
-                <img src="../static/images/ayuda.svg" alt="Logo">
+                <img th:src="@{/images/ayuda.svg}" alt="Logo">
                 <h2>Solidaridad</h2>
                 <p class="nosotros__texto">Estamos aquí para ofrecer ayuda a quienes más lo necesitan.</p>
             </div>
 
             <div class="nosotros__card">
-                <img src="../static/images/amr.svg" alt="amor">
+                <img th:src="@{/images/amr.svg}" alt="amor">
                 <h2>Amabilidad</h2>
                 <p class="nosotros__texto">Nuestro compromiso es brindar amor y cariño a todos los necesitados.</p>
             </div>
 
             <div class="nosotros__card">
-                <img src="../static/images/planeta.svg" alt="planeta">
+                <img th:src="@{/images/planeta.svg}" alt="planeta">
                 <h2>Empatía</h2>
                 <p class="nosotros__texto">Llegamos a todos los rincones para apoyar a quienes más lo requieren.</p>
             </div>
@@ -80,16 +85,16 @@
     </div>
     <div class="image-grid">
         <div class="image-grid__item image-grid__item--large-vertical">
-            <img src="../static/images/img1.webp" alt="Image 1" class="image-grid__img">
+            <img th:src="@{/images/img1.webp}" alt="Image 1" class="image-grid__img">
         </div>
         <div class="image-grid__item image-grid__item--large-horizontal">
-            <img src="../static/images/img3.webp" alt="Image 3" class="image-grid__img">
+            <img th:src="@{/images/img3.webp}" alt="Image 3" class="image-grid__img">
         </div>
         <div class="image-grid__item image-grid__item--small-horizontal">
-            <img src="../static/images/img2.webp" alt="Image 2" class="image-grid__img">
+            <img th:src="@{/images/img2.webp}" alt="Image 2" class="image-grid__img">
         </div>
         <div class="image-grid__item image-grid__item--medium">
-            <img src="../static/images/img4.webp" alt="Image 4" class="image-grid__img">
+            <img th:src="@{/images/img4.webp}" alt="Image 4" class="image-grid__img">
         </div>
     </div>
 </section>
@@ -121,7 +126,7 @@
         <h3>Historias recientes</h3>
         <article class="testimonialesAndblog__entrada">
             <div class="testimonialesAndblog__imagen">
-                <img loading="lazy" src="../static/images/card1.jpg" alt="Historia Post viaje">
+                <img loading="lazy" th:src="@{/images/card1.jpg}" alt="Historia Post viaje">
             </div>
             <div class="testimonialesAndblog__text">
                 <h4>Historia Post viaje</h4>
@@ -134,7 +139,7 @@
         </article>
         <article class="testimonialesAndblog__entrada">
             <div class="testimonialesAndblog__imagen">
-                <img loading="lazy" src="../static/images/card2.jpg" alt="Trabajo de voluntarios">
+                <img loading="lazy" th:src="@{/images/card2.jpg}" alt="Trabajo de voluntarios">
             </div>
             <div class="testimonialesAndblog__text">
                 <h4>Trabajo de voluntarios</h4>
@@ -157,5 +162,8 @@
         </div>
     </section>
 </div>
+
+<!-- Incluir el fragmento del footer -->
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

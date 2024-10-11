@@ -7,6 +7,11 @@
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
+
+<!-- Incluir la barra de navegación -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<!-- Contenido de la página de contacto -->
 <main class="informacion__contacto main contenedor-m">
   <h1>¿Deseas obtener información extra sobre AMICIS?</h1>
   <p>Estamos emocionados de conocer a personas apasionadas que quieran hacer una diferencia. Por favor, completa el siguiente formulario para que podamos conocerte mejor y discutir las oportunidades disponibles.</p>
@@ -21,6 +26,7 @@
     <p th:text="${error}"></p>
   </div>
 
+  <!-- Formulario de contacto -->
   <form th:action="@{/contacto}" method="POST" th:object="${mensajeContacto}" class="formulario">
     <h2>Llena el formulario de contacto para recibir tu petición</h2>
 
@@ -60,5 +66,9 @@
     </div>
   </form>
 </section>
+
+<!-- Incluir el fragmento del footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>

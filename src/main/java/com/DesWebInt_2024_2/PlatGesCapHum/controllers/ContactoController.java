@@ -50,6 +50,6 @@ public class ContactoController {
             model.addAttribute("error", "Hubo un error al enviar el mensaje. Por favor, intenta de nuevo.");
             e.printStackTrace();
         }
-        return "contacto"; // Retorna a la vista del formulario
+        return "redirect:/contacto"; // Retorna a la vista del formulario
     }
 }

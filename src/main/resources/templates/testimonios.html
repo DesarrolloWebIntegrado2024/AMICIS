@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dudas sobre el Voluntariado</title>
-  <link rel="stylesheet" href="../static/css/style.css"> <!-- Incluye tu hoja de estilos aquí -->
+  <link rel="stylesheet" th:href="@{/css/style.css}"> <!-- Incluye tu hoja de estilos aquí -->
 </head>
+
 <body>
+
+<!-- Incluir la barra de navegación -->
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <main class="informacion__testimonioAngBlog contenedor-m">
   <h1>¿Tienes dudas sobre el voluntariado?</h1>
@@ -18,7 +23,7 @@
     <h3>Historias recientes</h3>
     <article class="testimonialesAndblog__entrada">
       <div class="testimonialesAndblog__imagen">
-        <img loading="lazy" src="../static/images/card1.jpg" alt="Historia Post viaje">
+        <img loading="lazy" th:src="@{/images/card1.jpg}" alt="Historia Post viaje">
       </div>
       <div class="testimonialesAndblog__text">
         <h4>Historia Post viaje</h4>
@@ -30,7 +35,7 @@
     </article> <!--artículo 1-->
     <article class="testimonialesAndblog__entrada">
       <div class="testimonialesAndblog__imagen">
-        <img loading="lazy" src="../static/images/card2.jpg" alt="Trabajo de voluntarios">
+        <img loading="lazy" th:src="@{/images/card2.jpg}" alt="Trabajo de voluntarios">
       </div>
       <div class="testimonialesAndblog__text">
         <h4>Trabajo de voluntarios</h4>
@@ -43,5 +48,7 @@
   </section>
 </div>
 
+<!-- Incluir el fragmento del footer -->
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

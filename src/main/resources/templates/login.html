@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css"> <!-- Enlace a tu hoja de estilos -->
 </head>
+
 <body>
+
+<!-- Incluir la barra de navegación -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
 <main class="informacion__contacto contenedor-sm">
     <h1>Inicia Sesión en AMICIS</h1>
 
@@ -16,7 +22,7 @@
         <p th:text="${error}"></p>
     </div>
 
-    <form th:action="@{/usuarios/login}" method="POST" class="formulario">
+    <form th:action="@{/login}" method="POST" class="formulario">
         <div class="campo">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" placeholder="Tu email" required>
@@ -32,5 +38,9 @@
         </div>
     </form>
 </main>
+
+<!-- Incluir el fragmento del footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
 </body>
 </html>
