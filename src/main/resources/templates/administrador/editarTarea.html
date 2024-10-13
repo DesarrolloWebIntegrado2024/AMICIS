@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/administrador/admi.css}">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
 </head>
+
 <body class="dashboard">
 
 <header>
@@ -19,6 +21,7 @@
 </header>
 
 <!-- grid -->
+
 <div class="grid">
 
     <aside class="sidebar">
@@ -29,13 +32,10 @@
         <div class="nav_mobile" th:replace="~{fragments/nav-mobile :: nav-mobile}"></div>
 
         <main class="contenedor-formulario">
-            <h2 class="lista">Crear Tarea</h2>
+            <h2 class="lista">Editar Tarea</h2>
 
-            <!-- Mensajes de error y éxito -->
-            <div th:if="${error}" style="color:red;" th:text="${error}"></div>
-            <div th:if="${mensaje}" style="color:green;" th:text="${mensaje}"></div>
 
-            <form class="formulario" id="form-nueva-tarea" th:action="@{/tarea}" method="post">
+            <form class="formulario" id="    "    method="post">
 
                 <div class="formulario__datos">
                     <label class="formulario__label" for="nombre">Nombre de Tarea:</label>
@@ -57,10 +57,15 @@
                     <textarea id="descripcion" name="descripcion" class="formulario__textarea"></textarea>
                 </div>
 
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="lider">Lider:</label>
+                    <input class="formulario__input" name="lider" id="lider" type="text" placeholder="Añadir un Lider">
+                </div>
+
                 <input class="formulario__submit" type="submit" value="Crear Tarea">
             </form>
-        </main>
 
+        </main>
     </div>
 </div>
 </body>
