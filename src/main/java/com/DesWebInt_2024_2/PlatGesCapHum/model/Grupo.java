@@ -1,6 +1,7 @@
 package com.DesWebInt_2024_2.PlatGesCapHum.model;
 
 import jakarta.persistence.*;
+
 import java.util.HashSet;
 import java.util.Set;
 

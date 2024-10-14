@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,8 @@
     <link rel="stylesheet" th:href="@{/css/administrador/admi.css}">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
 </head>
-<body class="dashboard">
 
+<body class="dashboard">
 <header>
     <div class="dashboard__header">
         <h1 class="header__logo">Amicis</h1>
@@ -55,7 +56,8 @@
                 <thead>
                 <tr>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Fecha</th> <!-- template de fechas -->
+                    <th scope="col">Fecha Inicio</th>
+                    <th scope="col">Fecha Fin</th>
                     <th scope="col">Lider</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Administrar</th>
@@ -63,24 +65,37 @@
                 </thead>
                 <tbody>
                 <tr th:each="tarea : ${tareas}">
-                    <td data-label="Nombre" th:text="${tarea.nombre}">Registro 1</td>
-                    <td data-label="Fecha" th:text="${tarea.fecha}">03/01/2024 - 03/31/2025</td>
-                    <td data-label="Lider" th:text="${tarea.lider}">Lopez Perez, Marco Arian</td>
-                    <td data-label="Estado" th:text="${tarea.estado}">Pendiente</td>
-                    <td data-label="Administrar">
+                    <!-- Mostrar el nombre de la tarea -->
+                    <td data-label="Nombre" th:text="${tarea.nombre}">Nombre de la tarea</td>
 
-                        <button href="/editar-tarea.html"> <!-- Editar la tarea, falta agregar logica con el id -->
+                    <!-- Mostrar las fechas de inicio y fin -->
+                    <td data-label="Fecha Inicio" th:text="${tarea.fechaInicio}">03/01/2024</td>
+                    <td data-label="Fecha Fin" th:text="${tarea.fechaFin}">03/31/2025</td>
+
+                    <!-- Mostrar el nombre completo del líder -->
+                    <!-- Verificación para mostrar el líder solo si está asignado -->
+                    <td>
+                        <span th:if="${tarea.lider != null}" th:text="${tarea.lider.nombre}"></span>
+                        <span th:unless="${tarea.lider != null}">Líder no asignado</span>
+                    </td>
+
+                    <!-- Mostrar el estado de la tarea -->
+                    <td data-label="Estado" th:text="${tarea.estadoTarea.name()}">Pendiente</td>
+
+                    <!-- Botones de editar y eliminar -->
+                    <td data-label="Administrar">
+                        <button href="/editar-tarea.html">
                             <svg class="edit size-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
+                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
                             </svg>
                         </button>
                         <button th:onclick="'eliminarTarea(' + ${tarea.id} + ')'">
-                            <svg class="delete size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                 stroke-width="1.5" stroke="currentColor">
+                            <svg class="delete size-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M14.74 9L9.26 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                      d="M14.74 9L9.26 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
                             </svg>
                         </button>
                     </td>

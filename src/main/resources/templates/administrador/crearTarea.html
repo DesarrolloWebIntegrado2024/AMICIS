@@ -35,7 +35,7 @@
             <div th:if="${error}" style="color:red;" th:text="${error}"></div>
             <div th:if="${mensaje}" style="color:green;" th:text="${mensaje}"></div>
 
-            <form class="formulario" id="form-nueva-tarea" th:action="@{/tarea}" method="post">
+            <form class="formulario" id="form-nueva-tarea" th:action="@{/tarea/crear}" method="post">
 
                 <div class="formulario__datos">
                     <label class="formulario__label" for="nombre">Nombre de Tarea:</label>
