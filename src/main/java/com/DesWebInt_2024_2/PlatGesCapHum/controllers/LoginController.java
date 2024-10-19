@@ -19,32 +19,30 @@ import java.util.Optional;
 @RequestMapping()
 public class LoginController {
 
-    //INYECCION DE DEPENDENCIA
     @Autowired
     private UsuarioService usuarioService;
 
-    // Mostrar el formulario de login
     @GetMapping("/login")
     public String mostrarLogin(HttpSession session) {
-        // Verificar si ya existe una sesión activa
         if (session.getAttribute("usuario") != null) {
-            session.invalidate(); // Invalidar la sesión actual si existe
+            session.invalidate();
         }
-        return "login"; // Archivo HTML login.html
+        return "login";
     }
 
     @PostMapping("/login")
-    public String iniciarSesion(@RequestParam String email, @RequestParam String password, HttpSession session, Model model) {
+    public String iniciarSesion(@RequestParam String email, @RequestParam String password,
+                                HttpSession session, Model model) {
         Optional<Usuario> usuario = usuarioService.encontrarPorEmail(email);
 
         if (usuario.isPresent() && usuario.get().getContraseniaUsuario().equals(password)) {
             // Guardar información del usuario en la sesión
-            session.setAttribute("usuario", usuario.get());
+            session.setAttribute("usuario", usuario.get());  // Guarda el usuario completo
 
             if (usuario.get() instanceof Administrador) {
                 return "redirect:/admin/tareas"; // Redirigir al dashboard del administrador
             } else if (usuario.get() instanceof Voluntario) {
-                return "redirect:/"; // Redirigir al área de voluntario
+                return "redirect:/voluntario/tareas"; // Redirigir al área de voluntario
             }
         }
         model.addAttribute("error", "Email o contraseña incorrectos.");
@@ -53,8 +51,7 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String cerrarSesion(HttpSession session) {
-        session.invalidate(); // Invalidar la sesión
-        return "redirect:/login"; // Redirigir al login
+        session.invalidate();
+        return "redirect:/login";
     }
-
 }

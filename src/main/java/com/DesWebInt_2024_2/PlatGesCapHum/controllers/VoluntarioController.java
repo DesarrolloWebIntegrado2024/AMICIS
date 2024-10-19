@@ -1,7 +1,12 @@
 package com.DesWebInt_2024_2.PlatGesCapHum.controllers;
 
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Administrador;
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Tarea;
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Usuario;
 import com.DesWebInt_2024_2.PlatGesCapHum.model.Voluntario;
+import com.DesWebInt_2024_2.PlatGesCapHum.service.TareaService;
 import com.DesWebInt_2024_2.PlatGesCapHum.service.UsuarioService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/voluntario")
 public class VoluntarioController {
@@ -17,6 +24,8 @@ public class VoluntarioController {
     //INYECCION DE DEPENDENCIA
     @Autowired
     private UsuarioService usuarioService;
+    @Autowired
+    private TareaService tareaService;
 
     // Mostrar el formulario para crear un voluntario
     @GetMapping("/registrar")
@@ -38,5 +47,17 @@ public class VoluntarioController {
             e.printStackTrace();
         }
         return "redirect:/voluntario/registrar"; // Volver a la ruta GET
+    }
+
+    // Mostrar todas las tareas (solo para administradores)
+    @GetMapping("/tareas")
+    public String verTareas(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario != null && usuario instanceof Voluntario) {
+            List<Tarea> tareas = tareaService.obtenerTodasLasTareas();
+            model.addAttribute("tareas", tareas);
+            return "voluntario/verTareas"; // HTML: verTareas.html
+        }
+        return "redirect:/login";
     }
 }

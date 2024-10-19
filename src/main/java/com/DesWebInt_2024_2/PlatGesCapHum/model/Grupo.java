@@ -34,6 +34,14 @@ public class Grupo {
         this.voluntarios = voluntarios;
     }
 
+    public boolean inscribirVoluntario(Voluntario voluntario) {
+        if (voluntarios.size() < 10) {
+            voluntarios.add(voluntario);
+            return true; // Inscripción exitosa
+        }
+        return false; // No se pudo inscribir porque ya hay 10 voluntarios
+    }
+
     // Getters y setters
     public Long getId() {
         return id;

@@ -13,9 +13,12 @@
 
 <header>
     <div class="dashboard__header">
-        <h1 class="header__logo">Amicis</h1>
+        <div class="header__logo">Amicis</div>
+        <div class="header__admin">
+            <p>Bienvenido, <span th:text="${session.usuario.nombreUsuario}"></span>!</p>
+        </div>
         <nav>
-            <a href="#" class="header__session">Cerrar Sesión</a>
+            <a href="/logout" class="header__session">Cerrar Sesión</a>
         </nav>
     </div>
 </header>
