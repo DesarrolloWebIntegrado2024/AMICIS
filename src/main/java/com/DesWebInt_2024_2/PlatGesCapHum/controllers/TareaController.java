@@ -45,16 +45,29 @@ public class TareaController {
 
     @PostMapping("/inscribir")
     public String inscribirVoluntario(@RequestParam Long grupoId, HttpSession session) {
-        Voluntario voluntario = (Voluntario) session.getAttribute("voluntario");
-        Grupo grupo = grupoService.obtenerGrupoPorId(grupoId); // Método para obtener el grupo
+        // Obtener el voluntario desde la sesión
+        Voluntario voluntario = (Voluntario) session.getAttribute("usuario");
 
-        if (grupo != null && grupo.inscribirVoluntario(voluntario)) {
-            // Guardar cambios en la base de datos
-            grupoService.guardarGrupo(grupo);
-            return "redirect:/voluntario/tareas"; // Redirigir a tareas
+        if (voluntario == null) {
+            // Redirigir si no hay un voluntario en sesión (no autenticado)
+            return "redirect:/login";
         }
+        // Obtener el grupo usando el ID
+        Grupo grupo = grupoService.obtenerGrupoPorId(grupoId);
 
-        return "redirect:/voluntario/tareas"; // Redirigir en caso de error
+        if (grupo != null) {
+            // Intentar inscribir al voluntario
+            boolean inscrito = grupo.inscribirVoluntario(voluntario);
+            if (inscrito) {
+                // Si la inscripción es exitosa, guardar el grupo actualizado
+                grupoService.guardarGrupo(grupo);
+                return "redirect:/voluntario/tareas"; // Redirigir a la lista de tareas
+            } else {
+                // Si la inscripción falla (por ejemplo, si ya está inscrito o no hay cupo)
+                return "redirect:/voluntario/tareas?error=cupo";
+            }
+        }
+        // Redirigir si no se encuentra el grupo o hay un error
+        return "redirect:/voluntario/tareas?error=grupo";
     }
-
 }

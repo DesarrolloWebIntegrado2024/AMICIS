@@ -9,7 +9,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUsuario;
+    protected  Long idUsuario;
 
     @Column(nullable = false)
     private String nombreUsuario;

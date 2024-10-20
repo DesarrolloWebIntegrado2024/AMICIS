@@ -1,9 +1,6 @@
 package com.DesWebInt_2024_2.PlatGesCapHum.controllers;
 
-import com.DesWebInt_2024_2.PlatGesCapHum.model.Administrador;
-import com.DesWebInt_2024_2.PlatGesCapHum.model.Tarea;
-import com.DesWebInt_2024_2.PlatGesCapHum.model.Usuario;
-import com.DesWebInt_2024_2.PlatGesCapHum.model.Voluntario;
+import com.DesWebInt_2024_2.PlatGesCapHum.model.*;
 import com.DesWebInt_2024_2.PlatGesCapHum.service.TareaService;
 import com.DesWebInt_2024_2.PlatGesCapHum.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -49,15 +47,36 @@ public class VoluntarioController {
         return "redirect:/voluntario/registrar"; // Volver a la ruta GET
     }
 
-    // Mostrar todas las tareas (solo para administradores)
+
     @GetMapping("/tareas")
     public String verTareas(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario != null && usuario instanceof Voluntario) {
-            List<Tarea> tareas = tareaService.obtenerTodasLasTareas();
-            model.addAttribute("tareas", tareas);
-            return "voluntario/verTareas"; // HTML: verTareas.html
+
+        if (usuario == null) {
+            return "redirect:/login"; // Redirigir si no hay usuario en sesión
+        }
+        if (usuario instanceof Voluntario) {
+            Voluntario voluntario = (Voluntario) usuario;
+
+            List<Tarea> todasLasTareas = tareaService.obtenerTodasLasTareas();
+            List<Tarea> tareasInscritas = new ArrayList<>();
+
+            for (Tarea tarea : todasLasTareas) {
+                // Verificar si el voluntario está inscrito en el grupo de la tarea
+                if (tarea.getGrupo() != null && verificarVoluntarioEnGrupo(voluntario, tarea.getGrupo())) {
+                    tareasInscritas.add(tarea);
+                }
+            }
+            model.addAttribute("tareas", todasLasTareas);
+            model.addAttribute("tareasInscritas", tareasInscritas);
+            return "voluntario/verTareas";
         }
         return "redirect:/login";
+    }
+
+    // Método que verifica si el voluntario está inscrito en el grupo
+    private boolean verificarVoluntarioEnGrupo(Voluntario voluntario, Grupo grupo) {
+        return grupo != null && grupo.getVoluntarios().stream()
+                .anyMatch(v -> v.getIdUsuario().equals(voluntario.getIdUsuario()));
     }
 }

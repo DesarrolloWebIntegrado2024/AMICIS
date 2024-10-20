@@ -2,6 +2,7 @@ package com.DesWebInt_2024_2.PlatGesCapHum.service;
 
 import com.DesWebInt_2024_2.PlatGesCapHum.model.Tarea;
 import com.DesWebInt_2024_2.PlatGesCapHum.model.Voluntario;
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Usuario;
 import com.DesWebInt_2024_2.PlatGesCapHum.repository.TareaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,6 @@ public class TareaService {
                 return true; // Inscripción exitosa
             }
         }
-
         return false; // Inscripción fallida
     }
 }

@@ -35,11 +35,23 @@ public class Grupo {
     }
 
     public boolean inscribirVoluntario(Voluntario voluntario) {
-        if (voluntarios.size() < 10) {
-            voluntarios.add(voluntario);
-            return true; // Inscripción exitosa
+        // Verificar si el voluntario ya está inscrito
+        if (voluntarios.contains(voluntario)) {
+            return false; // Ya está inscrito
         }
-        return false; // No se pudo inscribir porque ya hay 10 voluntarios
+        // Verificar si hay cupo en el grupo
+        if (voluntarios.size() >= 5) {
+            return false; // No hay más cupo
+        }
+        // Inscribir al voluntario
+        voluntarios.add(voluntario);
+
+        // Actualizar el contador de la tarea
+        Tarea tarea = this.tarea;
+        int cantidadActual = tarea.getCantidadVoluntariosInscritos();
+        tarea.setCantidadVoluntariosInscritos(cantidadActual + 1);
+
+        return true;
     }
 
     // Getters y setters

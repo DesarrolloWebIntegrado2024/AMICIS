@@ -27,4 +27,17 @@ public class Voluntario extends Usuario {
     public void setGrupos(Set<Grupo> grupos) {
         this.grupos = grupos;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Voluntario)) return false;
+        Voluntario other = (Voluntario) obj;
+        return idUsuario != null && idUsuario.equals(other.idUsuario);
+    }
+    @Override
+    public int hashCode() {
+        return 31; // o cualquier otro valor constante, ya que solo necesitas comparar el id
+    }
+
 }
