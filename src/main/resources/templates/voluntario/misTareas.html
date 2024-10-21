@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMICIS - Tareas Inscritas</title>
+    <link rel="stylesheet" th:href="@{/css/voluntario/voluntario.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard">
+<header>
+    <div class="dashboard__header">
+        <div class="header__logo">Amicis</div>
+        <div class="header__admin">
+            <p>Bienvenido, <span th:text="${session.usuario.nombreUsuario}"></span>!</p>
+        </div>
+        <nav>
+            <a href="/logout" class="header__session">Cerrar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<div class="grid">
+    <aside class="sidebar">
+        <div class="menu" th:replace="~{voluntario/nav-voluntario :: nav-voluntario}"></div>
+    </aside>
+
+    <div class="content__transform">
+        <div class="nav_mobile" th:replace="~{fragments/nav-mobile :: nav-mobile}"></div>
+
+        <main class="contenido contenedor-sm">
+            <h2 class="lista">Tareas en las que estás inscrito</h2>
+
+            <section class="informacion_tareas contenedor-m">
+                <table>
+                    <thead>
+                    <tr>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha Inicio</th>
+                        <th scope="col">Fecha Fin</th>
+                        <th scope="col">Líder</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="tarea : ${tareasInscritas}">
+                        <td data-label="Nombre" th:text="${tarea.nombre}">Nombre de la tarea</td>
+                        <td data-label="Fecha Inicio" th:text="${tarea.fechaInicio}">Fecha Inicio</td>
+                        <td data-label="Fecha Fin" th:text="${tarea.fechaFin}">Fecha Fin</td>
+                        <td data-label="Líder">
+                            <span th:if="${tarea.lider != null}" th:text="${tarea.lider.nombre}"></span>
+                            <span th:unless="${tarea.lider != null}">Líder no asignado</span>
+                        </td>
+                        <td data-label="Estado" th:text="${tarea.estadoTarea}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>

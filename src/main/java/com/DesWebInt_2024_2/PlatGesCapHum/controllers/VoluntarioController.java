@@ -79,4 +79,29 @@ public class VoluntarioController {
         return grupo != null && grupo.getVoluntarios().stream()
                 .anyMatch(v -> v.getIdUsuario().equals(voluntario.getIdUsuario()));
     }
+
+    @GetMapping("/mis-tareas")
+    public String verMisTareas(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return "redirect:/login"; // Redirigir si no hay usuario en sesión
+        }
+        if (usuario instanceof Voluntario) {
+            Voluntario voluntario = (Voluntario) usuario;
+            List<Tarea> tareasInscritas = new ArrayList<>();
+
+            // Obtener todas las tareas y filtrar solo las que el voluntario está inscrito
+            List<Tarea> todasLasTareas = tareaService.obtenerTodasLasTareas();
+            for (Tarea tarea : todasLasTareas) {
+                if (tarea.getGrupo() != null && verificarVoluntarioEnGrupo(voluntario, tarea.getGrupo())) {
+                    tareasInscritas.add(tarea);
+                }
+            }
+            model.addAttribute("tareasInscritas", tareasInscritas);
+            return "voluntario/misTareas"; // Nombre de la vista de "Mis Tareas"
+        }
+        return "redirect:/login";
+    }
+
 }

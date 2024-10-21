@@ -12,6 +12,5 @@ public class UsuarioController {
     //INYECCION DE DEPENDENCIA
     @Autowired
     private UsuarioService usuarioService;
-
 }
 
