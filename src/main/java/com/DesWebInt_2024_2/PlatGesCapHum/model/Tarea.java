@@ -22,12 +22,7 @@ public class Tarea {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
 
-    @ManyToOne
-    @JoinColumn(name = "lider_id")
-    private Lider lider;
-
-    @ManyToOne // Nueva relación con Grupo
-    @JoinColumn(name = "grupo_id")
+    @OneToOne(mappedBy = "tarea", cascade = CascadeType.ALL)
     private Grupo grupo;
 
     @Enumerated(EnumType.STRING)
@@ -49,14 +44,13 @@ public class Tarea {
         this.estadoTarea = EstadoTarea.PENDIENTE; // Estado inicial
     }
 
-    public Tarea(Long id, String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, Lider lider, Grupo grupo, EstadoTarea estadoTarea, int cantidadVoluntariosInscritos, Set<Grupo> grupos) {
+    public Tarea(Long id, String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, Grupo grupo, EstadoTarea estadoTarea, int cantidadVoluntariosInscritos, Set<Grupo> grupos) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
-        this.lider = lider;
-        this.grupo = grupo; // Inicializar grupo
+        this.grupo = grupo;
         this.estadoTarea = estadoTarea;
         this.cantidadVoluntariosInscritos = cantidadVoluntariosInscritos;
         this.grupos = grupos;
@@ -119,17 +113,6 @@ public class Tarea {
 
     public void setFechaFin(LocalDate fechaFin) {
         this.fechaFin = fechaFin;
-    }
-
-    public Lider getLider() {
-        return lider;
-    }
-
-    public void setLider(Lider lider) {
-        this.lider = lider;
-        if (lider != null) {
-            lider.getTareasAsignadas().add(this); // Mantiene la consistencia bidireccional
-        }
     }
 
     public Grupo getGrupo() { // Método para acceder al grupo

@@ -17,41 +17,66 @@ public class Grupo {
     @JoinColumn(name = "tarea_id", nullable = false)
     private Tarea tarea;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "voluntarios_grupo",
-            joinColumns = @JoinColumn(name = "grupo_id"),
-            inverseJoinColumns = @JoinColumn(name = "voluntario_id")
-    )
-    private Set<Voluntario> voluntarios = new HashSet<>();
+    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
+    private Set<VoluntarioGrupo> voluntariosGrupo = new HashSet<>();
 
     public Grupo() {
     }
 
-    public Grupo(Long id, Tarea tarea, Set<Voluntario> voluntarios) {
+    public Grupo(Long id, Tarea tarea, Set<VoluntarioGrupo> voluntariosGrupo) {
         this.id = id;
         this.tarea = tarea;
-        this.voluntarios = voluntarios;
+        this.voluntariosGrupo = voluntariosGrupo;
     }
 
+    // Método para inscribir voluntarios y establecer tipo_voluntario
     public boolean inscribirVoluntario(Voluntario voluntario) {
-        // Verificar si el voluntario ya está inscrito
-        if (voluntarios.contains(voluntario)) {
-            return false; // Ya está inscrito
-        }
-        // Verificar si hay cupo en el grupo
-        if (voluntarios.size() >= 5) {
+        if (voluntariosGrupo.size() >= 10) {
             return false; // No hay más cupo
         }
-        // Inscribir al voluntario
-        voluntarios.add(voluntario);
 
-        // Actualizar el contador de la tarea
-        Tarea tarea = this.tarea;
-        int cantidadActual = tarea.getCantidadVoluntariosInscritos();
-        tarea.setCantidadVoluntariosInscritos(cantidadActual + 1);
-
+        VoluntarioGrupo voluntarioGrupo = new VoluntarioGrupo();
+        voluntarioGrupo.setVoluntario(voluntario);
+        voluntarioGrupo.setGrupo(this);
+        voluntarioGrupo.setTipoVoluntario("normal"); // Por defecto, "normal"
+        voluntariosGrupo.add(voluntarioGrupo);
         return true;
+    }
+
+    public Set<Voluntario> getVoluntarios() {
+        Set<Voluntario> voluntarios = new HashSet<>();
+        for (VoluntarioGrupo vg : voluntariosGrupo) {
+            voluntarios.add(vg.getVoluntario());
+        }
+        return voluntarios;
+    }
+
+    public void asignarLider(Voluntario voluntario) {
+        for (VoluntarioGrupo vg : voluntariosGrupo) {
+            if (vg.getVoluntario().equals(voluntario)) {
+                vg.setTipoVoluntario("líder");
+                break; // Solo puede haber un líder, así que rompemos el ciclo
+            }
+        }
+    }
+
+    public void desasignarLider() {
+        for (VoluntarioGrupo vg : voluntariosGrupo) {
+            if (vg.getTipoVoluntario().equals("líder")) {
+                vg.setTipoVoluntario("normal");  // Cambiar al estado de voluntario normal
+                break;  // Solo puede haber un líder, así que rompemos el ciclo
+            }
+        }
+    }
+
+    // Método para obtener el líder actual
+    public Voluntario obtenerLider() {
+        for (VoluntarioGrupo vg : voluntariosGrupo) {
+            if (vg.getTipoVoluntario().equals("líder")) {
+                return vg.getVoluntario();
+            }
+        }
+        return null; // No hay líder asignado
     }
 
     // Getters y setters
@@ -71,11 +96,11 @@ public class Grupo {
         this.tarea = tarea;
     }
 
-    public Set<Voluntario> getVoluntarios() {
-        return voluntarios;
+    public Set<VoluntarioGrupo> getVoluntariosGrupo() {
+        return voluntariosGrupo;
     }
 
-    public void setVoluntarios(Set<Voluntario> voluntarios) {
-        this.voluntarios = voluntarios;
+    public void setVoluntariosGrupo(Set<VoluntarioGrupo> voluntariosGrupo) {
+        this.voluntariosGrupo = voluntariosGrupo;
     }
 }

@@ -1,8 +1,6 @@
 package com.DesWebInt_2024_2.PlatGesCapHum.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,8 +8,9 @@ import java.util.Set;
 @Entity
 @Table(name = "voluntarios")
 public class Voluntario extends Usuario {
-    @ManyToMany(mappedBy = "voluntarios")
-    private Set<Grupo> grupos = new HashSet<>();
+
+    @OneToMany(mappedBy = "voluntario", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Set<VoluntarioGrupo> voluntariosGrupo = new HashSet<>();
 
     public Voluntario() {
         super();
@@ -20,12 +19,12 @@ public class Voluntario extends Usuario {
 
     // Getters y setters...
 
-    public Set<Grupo> getGrupos() {
-        return grupos;
+    public Set<VoluntarioGrupo> getVoluntariosGrupo() {
+        return voluntariosGrupo;
     }
 
-    public void setGrupos(Set<Grupo> grupos) {
-        this.grupos = grupos;
+    public void setVoluntariosGrupo(Set<VoluntarioGrupo> voluntariosGrupo) {
+        this.voluntariosGrupo = voluntariosGrupo;
     }
 
     @Override
@@ -39,5 +38,4 @@ public class Voluntario extends Usuario {
     public int hashCode() {
         return 31; // o cualquier otro valor constante, ya que solo necesitas comparar el id
     }
-
 }

@@ -1,6 +1,9 @@
 package com.DesWebInt_2024_2.PlatGesCapHum.controllers;
 
-import com.DesWebInt_2024_2.PlatGesCapHum.model.*;
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Grupo;
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Tarea;
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Usuario;
+import com.DesWebInt_2024_2.PlatGesCapHum.model.Voluntario;
 import com.DesWebInt_2024_2.PlatGesCapHum.service.TareaService;
 import com.DesWebInt_2024_2.PlatGesCapHum.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
@@ -103,5 +106,4 @@ public class VoluntarioController {
         }
         return "redirect:/login";
     }
-
 }

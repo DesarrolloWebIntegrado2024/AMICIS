@@ -49,8 +49,10 @@
                         <td data-label="Fecha Inicio" th:text="${tarea.fechaInicio}">Fecha Inicio</td>
                         <td data-label="Fecha Fin" th:text="${tarea.fechaFin}">Fecha Fin</td>
                         <td data-label="Líder">
-                            <span th:if="${tarea.lider != null}" th:text="${tarea.lider.nombre}"></span>
-                            <span th:unless="${tarea.lider != null}">Líder no asignado</span>
+                            <span th:if="${tarea.grupo != null}">
+                                <span th:if="${tarea.grupo.obtenerLider() != null}" th:text="${tarea.grupo.obtenerLider().nombreUsuario}"></span>
+                                <span th:unless="${tarea.grupo.obtenerLider() != null}">Líder no asignado</span>
+                            </span>
                         </td>
                         <td data-label="Estado" th:text="${tarea.estadoTarea}"></td>
                     </tr>
