@@ -32,9 +32,6 @@ public class Tarea {
     @Column(nullable = false)
     private int cantidadVoluntariosInscritos = 0;
 
-    @OneToMany(mappedBy = "tarea", cascade = CascadeType.ALL)
-    private Set<Grupo> grupos = new HashSet<>();
-
     public enum EstadoTarea {
         PENDIENTE,
         COMPLETA
@@ -44,7 +41,7 @@ public class Tarea {
         this.estadoTarea = EstadoTarea.PENDIENTE; // Estado inicial
     }
 
-    public Tarea(Long id, String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, Grupo grupo, EstadoTarea estadoTarea, int cantidadVoluntariosInscritos, Set<Grupo> grupos) {
+    public Tarea(Long id, String nombre, String descripcion, LocalDate fechaInicio, LocalDate fechaFin, Grupo grupo, EstadoTarea estadoTarea, int cantidadVoluntariosInscritos) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -53,25 +50,23 @@ public class Tarea {
         this.grupo = grupo;
         this.estadoTarea = estadoTarea;
         this.cantidadVoluntariosInscritos = cantidadVoluntariosInscritos;
-        this.grupos = grupos;
     }
 
     // Método para crear y agregar un grupo a la tarea
     public Grupo crearGrupo() {
         Grupo grupo = new Grupo();
         grupo.setTarea(this);
-        grupos.add(grupo);
         this.grupo = grupo; // Asignar el nuevo grupo a la tarea
         return grupo;
     }
 
     // Método para inscribir un voluntario en la tarea
     public boolean inscribirVoluntario(Voluntario voluntario) {
-        if (cantidadVoluntariosInscritos < 10) {
+        if (cantidadVoluntariosInscritos < 5) {
             cantidadVoluntariosInscritos++; // Incrementar la cantidad de voluntarios inscritos
             return true; // Inscripción exitosa
         }
-        return false; // No se pudo inscribir porque ya hay 10 voluntarios
+        return false; // No se pudo inscribir porque ya hay 5 voluntarios
     }
 
     // Getters y setters
@@ -139,11 +134,4 @@ public class Tarea {
         this.cantidadVoluntariosInscritos = cantidadVoluntariosInscritos;
     }
 
-    public Set<Grupo> getGrupos() {
-        return grupos;
-    }
-
-    public void setGrupos(Set<Grupo> grupos) {
-        this.grupos = grupos;
-    }
 }

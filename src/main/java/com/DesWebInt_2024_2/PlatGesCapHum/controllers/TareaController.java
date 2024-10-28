@@ -57,16 +57,12 @@ public class TareaController {
             return "redirect:/login";
         }
 
-        Grupo grupo = grupoService.obtenerGrupoPorId(grupoId);
-        if (grupo != null) {
-            boolean inscrito = grupoService.inscribirVoluntarioAGrupo(grupo, voluntario);
-            if (inscrito) {
-                return "redirect:/voluntario/tareas";
-            } else {
-                return "redirect:/voluntario/tareas?error=cupo";
-            }
+        boolean inscrito = grupoService.inscribirVoluntarioAGrupo(grupoId, voluntario);
+        if (inscrito) {
+            return "redirect:/voluntario/tareas";
+        } else {
+            return "redirect:/voluntario/tareas?error=cupo";
         }
-        return "redirect:/voluntario/tareas?error=grupo";
     }
 
     // Mostrar formulario de edición de tarea
@@ -139,18 +135,23 @@ public class TareaController {
         tareaExistente.setFechaFin(tarea.getFechaFin());
     }
 
-    // Eliminar tarea por ID
     @PostMapping("/eliminar/{id}")
-    public String eliminarTarea(@PathVariable Long id, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario instanceof Administrador) {
-            Tarea tarea = tareaService.findById(id).orElse(null);
-            if (tarea != null) {
-                tareaService.eliminarTarea(id);  // Elimina la tarea y el grupo asociado
-                return "redirect:/admin/tareas?success=eliminada";
-            }
+    public String eliminarTarea(@PathVariable Long id) {
+        // Buscar la tarea por ID
+        Tarea tarea = tareaService.obtenerTareaPorId(id);
+        if (tarea == null) {
+            // Manejo de error si la tarea no existe
             return "redirect:/admin/tareas?error=no_encontrada";
         }
-        return "redirect:/login";
+
+        // Verificar que la tarea esté en estado PENDIENTE
+        if (tarea.getEstadoTarea() == Tarea.EstadoTarea.PENDIENTE) {
+            // Llamar al método eliminarTarea en TareaService
+            tareaService.eliminarTarea(id);
+            return "redirect:/admin/tareas";
+        }
+
+        // Manejo de error si la tarea no puede ser eliminada
+        return "redirect:/admin/tareas?error=no_eliminable";
     }
 }

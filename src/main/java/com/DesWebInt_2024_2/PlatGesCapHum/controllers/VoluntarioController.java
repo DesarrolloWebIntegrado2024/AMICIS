@@ -4,19 +4,19 @@ import com.DesWebInt_2024_2.PlatGesCapHum.model.Grupo;
 import com.DesWebInt_2024_2.PlatGesCapHum.model.Tarea;
 import com.DesWebInt_2024_2.PlatGesCapHum.model.Usuario;
 import com.DesWebInt_2024_2.PlatGesCapHum.model.Voluntario;
+import com.DesWebInt_2024_2.PlatGesCapHum.service.GrupoService;
 import com.DesWebInt_2024_2.PlatGesCapHum.service.TareaService;
 import com.DesWebInt_2024_2.PlatGesCapHum.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/voluntario")
@@ -27,6 +27,8 @@ public class VoluntarioController {
     private UsuarioService usuarioService;
     @Autowired
     private TareaService tareaService;
+    @Autowired
+    private GrupoService grupoService;
 
     // Mostrar el formulario para crear un voluntario
     @GetMapping("/registrar")
@@ -90,6 +92,7 @@ public class VoluntarioController {
         if (usuario == null) {
             return "redirect:/login"; // Redirigir si no hay usuario en sesión
         }
+
         if (usuario instanceof Voluntario) {
             Voluntario voluntario = (Voluntario) usuario;
             List<Tarea> tareasInscritas = new ArrayList<>();
@@ -101,9 +104,55 @@ public class VoluntarioController {
                     tareasInscritas.add(tarea);
                 }
             }
+            // Añade el usuario al modelo para evitar que sea null
+            model.addAttribute("usuario", usuario);
             model.addAttribute("tareasInscritas", tareasInscritas);
-            return "voluntario/misTareas"; // Nombre de la vista de "Mis Tareas"
+            return "voluntario/misTareas";
         }
         return "redirect:/login";
+    }
+
+    @PostMapping("/culminar")
+    public String culminarTarea(@RequestParam Long tareaId, HttpSession session, Model model) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario instanceof Voluntario) {
+            Voluntario voluntario = (Voluntario) usuario;
+            Optional<Tarea> tareaOpt = tareaService.findById(tareaId);
+
+            if (tareaOpt.isPresent()) {
+                Tarea tarea = tareaOpt.get();
+                Grupo grupo = tarea.getGrupo();
+
+                // Verificar que el voluntario sea el líder de la tarea
+                if (grupo != null && grupo.obtenerLider().equals(voluntario)) {
+                    tarea.setEstadoTarea(Tarea.EstadoTarea.COMPLETA);
+                    tareaService.actualizarTarea(tarea);
+                    model.addAttribute("mensaje", "Tarea completada exitosamente.");
+                } else {
+                    model.addAttribute("error", "No tienes permisos para culminar esta tarea.");
+                }
+            } else {
+                model.addAttribute("error", "Tarea no encontrada.");
+            }
+        }
+        return "redirect:/voluntario/mis-tareas";
+    }
+
+    @PostMapping("/retirarse")
+    @Transactional  // Asegura una transacción para todo el proceso
+    public String desinscribirVoluntario(@RequestParam Long grupoId, HttpSession session) {
+        Voluntario voluntario = (Voluntario) session.getAttribute("usuario");
+        if (voluntario == null) {
+            return "redirect:/login";
+        }
+
+        // Llamar al servicio para desinscribir
+        boolean desinscrito = grupoService.desinscribirVoluntario(voluntario.getIdUsuario(), grupoId);
+        if (desinscrito) {
+            return "redirect:/voluntario/mis-tareas"; // Redirigir con mensaje de éxito
+        } else {
+            return "redirect:/voluntario/tareas?error=no_encontrado"; // Redirigir con mensaje de error
+        }
     }
 }

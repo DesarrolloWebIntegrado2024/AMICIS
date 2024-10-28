@@ -22,7 +22,6 @@ public class AdmiController {
 
     @Autowired
     private UsuarioService usuarioService;
-
     @Autowired
     private TareaService tareaService;
 

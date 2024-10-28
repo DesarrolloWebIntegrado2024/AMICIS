@@ -447,6 +447,32 @@ table th {
   font-weight: 900;
 }
 
+/***************** ICONOS DE EDITAR Y ELIMINAR TAREA ************************/
+.icon-button {
+    background: none; /* Elimina el fondo del botón */
+    border: none; /* Elimina el borde del botón */
+    cursor: pointer; /* Cambia el cursor al pasar el ratón */
+    padding: 0; /* Elimina el padding */
+    display: inline-flex; /* Para alinear el ícono y el texto */
+    align-items: center; /* Centra verticalmente el ícono y el texto */
+}
+
+.icon-button svg {
+    width: 20px; /* Ajusta el tamaño del ícono según sea necesario */
+    height: 20px; /* Ajusta el tamaño del ícono según sea necesario */
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+}
+
+.edit-button {
+    text-decoration: none; /* Elimina el subrayado del enlace */
+}
+
+.button-separator {
+    display: inline-block; /* Espacio entre los botones */
+    width: 10px; /* Ajusta el espacio según sea necesario */
+}
+
+
 @media screen and (max-width: 600px) {
   table {
     border: 0;

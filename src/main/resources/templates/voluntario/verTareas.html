@@ -7,6 +7,7 @@
     <title>AMICIS - Tareas</title>
     <link rel="stylesheet" th:href="@{/css/voluntario/voluntario.css}">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body class="dashboard">
@@ -60,7 +61,7 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Fecha Inicio</th>
                     <th scope="col">Fecha Fin</th>
-                    <th scope="col">Líder</th>
+                    <th scope="col">Descripción</th>
                     <th scope="col">Cupos</th>
                     <th scope="col">Seleccionar</th>
                 </tr>
@@ -70,21 +71,26 @@
                     <td data-label="Nombre" th:text="${tarea.nombre}">Nombre de la tarea</td>
                     <td data-label="Fecha Inicio" th:text="${tarea.fechaInicio}">03/01/2024</td>
                     <td data-label="Fecha Fin" th:text="${tarea.fechaFin}">03/31/2025</td>
-                    <td>
-                        <span th:if="${tarea.grupo != null}">
-                            <span th:if="${tarea.grupo.obtenerLider() != null}" th:text="${tarea.grupo.obtenerLider().nombreUsuario}"></span>
-                            <span th:unless="${tarea.grupo.obtenerLider() != null}">Líder no asignado</span>
-                        </span>
-                    </td>
+                    <td data-label="Descripción" th:text="${tarea.descripcion}">Descripción de la tarea</td>
                     <td data-label="Vacantes" th:text="${5 - tarea.grupo.voluntarios.size()}"></td>
+
                     <td>
                         <form th:action="@{/tarea/inscribir}" method="post">
                             <input type="hidden" name="grupoId" th:value="${tarea.grupo.id}"/>
 
                             <!-- Botón para registrarse en la tarea -->
                             <button type="submit"
-                                    th:disabled="${tarea.grupo.voluntarios.size() >= 5 || tarea.grupo.voluntarios.contains(session.usuario)}"
-                                    th:text="${tarea.grupo.voluntarios.contains(session.usuario) ? 'Ya inscrito' : 'Registrarme'}">
+                                    th:class="${tarea.estadoTarea.name() == 'COMPLETA' ? 'tarea-completa' :
+                            (tarea.grupo.voluntarios.size() >= 5 ? 'no-cupo' : (tarea.grupo.voluntarios.contains(session.usuario) ? 'ya-inscrito' : 'registrarse'))}"
+                                    th:disabled="${tarea.estadoTarea.name() == 'COMPLETA'
+                            || tarea.grupo.voluntarios.size() >= 5
+                            || tarea.grupo.voluntarios.contains(session.usuario)}">
+                                <i class="fas"
+                                   th:class="${tarea.estadoTarea.name() == 'COMPLETA' ? 'fa-check' :
+                          (tarea.grupo.voluntarios.size() >= 5 ? 'fa-ban' : 'fa-user-plus')}"></i>
+                                <span th:text="${tarea.estadoTarea.name() == 'COMPLETA' ? 'Tarea Completa'
+                : (tarea.grupo.voluntarios.size() >= 5 ? 'No hay cupo'
+                : (tarea.grupo.voluntarios.contains(session.usuario) ? 'Ya inscrito' : 'Registrarme'))}"></span>
                             </button>
                         </form>
                     </td>

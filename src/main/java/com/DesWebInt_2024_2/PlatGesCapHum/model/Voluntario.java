@@ -9,7 +9,7 @@ import java.util.Set;
 @Table(name = "voluntarios")
 public class Voluntario extends Usuario {
 
-    @OneToMany(mappedBy = "voluntario", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "voluntario", cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<VoluntarioGrupo> voluntariosGrupo = new HashSet<>();
 
     public Voluntario() {

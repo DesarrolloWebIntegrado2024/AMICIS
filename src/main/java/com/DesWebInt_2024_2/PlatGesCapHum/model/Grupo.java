@@ -13,11 +13,11 @@ public class Grupo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "tarea_id", nullable = false)
     private Tarea tarea;
 
-    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "grupo", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<VoluntarioGrupo> voluntariosGrupo = new HashSet<>();
 
     public Grupo() {
@@ -35,11 +35,24 @@ public class Grupo {
             return false; // No hay más cupo
         }
 
+        // Crear e inicializar el objeto VoluntarioGrupo
         VoluntarioGrupo voluntarioGrupo = new VoluntarioGrupo();
         voluntarioGrupo.setVoluntario(voluntario);
         voluntarioGrupo.setGrupo(this);
-        voluntarioGrupo.setTipoVoluntario("normal"); // Por defecto, "normal"
+
+        // Inicializar VoluntarioGrupoId con voluntario y grupo
+        VoluntarioGrupoId id = new VoluntarioGrupoId(voluntario.getIdUsuario(), this.id);
+        voluntarioGrupo.setId(id);
+
+        // Establecer tipo de voluntario por defecto
+        voluntarioGrupo.setTipoVoluntario("normal");
         voluntariosGrupo.add(voluntarioGrupo);
+
+        // Actualizar el conteo de voluntarios en la tarea asociada
+        if (this.tarea != null) {
+            this.tarea.setCantidadVoluntariosInscritos(voluntariosGrupo.size());
+        }
+
         return true;
     }
 
@@ -71,12 +84,11 @@ public class Grupo {
 
     // Método para obtener el líder actual
     public Voluntario obtenerLider() {
-        for (VoluntarioGrupo vg : voluntariosGrupo) {
-            if (vg.getTipoVoluntario().equals("líder")) {
-                return vg.getVoluntario();
-            }
-        }
-        return null; // No hay líder asignado
+        return voluntariosGrupo.stream()
+                .filter(vg -> "líder".equals(vg.getTipoVoluntario()))
+                .map(VoluntarioGrupo::getVoluntario)
+                .findFirst()
+                .orElse(null); // Devolver null si no hay líder
     }
 
     // Getters y setters

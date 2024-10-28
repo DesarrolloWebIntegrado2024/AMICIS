@@ -448,6 +448,97 @@ table th {
   font-weight: 900;
 }
 
+/***************************************************/
+button {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transición suave para el cambio de color */
+}
+
+button i {
+    margin-right: 8px; /* Espaciado entre el icono y el texto */
+}
+
+button:disabled {
+    background-color: #ccc; /* Color de fondo cuando está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor cuando está deshabilitado */
+    color: #666; /* Color del texto deshabilitado */
+}
+
+/* Estilo del botón "Culminar Tarea" */
+.btn-culminar {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+}
+
+.btn-culminar:hover {
+    background-color: #45a049; /* Verde más oscuro, pero solo se ve si no está deshabilitado */
+}
+
+/* Estilo del botón "Retirarse" */
+.btn-retirarse {
+    background-color: #f44336; /* Rojo */
+    color: white;
+}
+
+.btn-retirarse:hover {
+    background-color: #e53935; /* Rojo más oscuro, pero solo se ve si no está deshabilitado */
+}
+
+/* Estilo del botón "Registrarse" */
+.registrarse {
+    background-color: #007bff; /* Azul */
+    color: white;
+}
+
+.registrarse:hover {
+    background-color: #0056b3; /* Azul más oscuro en hover */
+}
+
+.ya-inscrito {
+    background-color: #007bff; /* Azul */
+        color: white;
+}
+
+.ya-inscrito:hover {
+    background-color: #0056b3; /* Azul más oscuro en hover */
+}
+
+/* Estilos para el botón de tarea completa */
+button.tarea-completa {
+    background-color: #28a745; /* Color verde */
+    color: white;
+}
+
+button.tarea-completa:hover {
+    background-color: #218838; /* Verde más oscuro en hover */
+}
+
+/* Estilos para el botón de no hay cupo */
+button.no-cupo {
+    background-color: #dc3545; /* Color rojo */
+    color: white;
+}
+
+button.no-cupo:hover {
+    background-color: #c82333; /* Rojo más oscuro en hover */
+}
+
+button:disabled.no-cupo:hover {
+    background-color: #dc3545; /* Mantener el color del botón normal */
+    color: white; /* Color del texto */
+}
+
+button:disabled.registrarse:hover {
+    background-color: #007bff; /* Mantener el color del botón normal */
+    color: white; /* Color del texto */
+}
+
+/**********************************************/
 @media screen and (max-width: 600px) {
   table {
     border: 0;
