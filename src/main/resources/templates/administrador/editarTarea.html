@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMICIS - Editar Tarea</title>
+    <link rel="stylesheet" th:href="@{/css/administrador/admi.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard">
+
+<header>
+    <div class="dashboard__header">
+        <div class="header__logo">Amicis</div>
+        <div class="header__admin">
+            <p>Bienvenido, <span th:text="${session.usuario.nombreUsuario}"></span>!</p>
+        </div>
+        <nav>
+            <a href="/logout" class="header__session">Cerrar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<div class="grid">
+    <aside class="sidebar">
+        <div class="menu" th:replace="~{fragments/nav-admin :: nav-admin}"></div>
+    </aside>
+
+    <div class="content__transform">
+        <div class="nav_mobile" th:replace="~{fragments/nav-mobile :: nav-mobile}"></div>
+
+        <main class="contenedor-formulario">
+            <h2 class="lista">Editar Tarea</h2>
+            <p>Modifica los detalles de la tarea y guarda los cambios.</p>
+
+            <div th:if="${error}" style="color:red;" th:text="${error}"></div>
+            <div th:if="${mensaje}" style="color:green;" th:text="${mensaje}"></div>
+
+            <form class="formulario" id="form-editar-tarea" th:action="@{/tarea/actualizar}" method="post">
+                <input type="hidden" name="tareaId" th:value="${tarea.id}"/>
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="nombre">Nombre de la tarea:</label>
+                    <input id="nombre" name="nombre" th:value="${tarea.nombre}" required class="formulario__input" type="text" placeholder="Ej. Mantenimiento en Áreas Verdes">
+                </div>
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="fechaInicio">Fecha de Inicio:</label>
+                    <input id="fechaInicio" name="fechaInicio" th:value="${tarea.fechaInicio}" required class="formulario__input" type="date">
+                </div>
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="fechaFin">Fecha de Finalización:</label>
+                    <input id="fechaFin" name="fechaFin" th:value="${tarea.fechaFin}" required class="formulario__input" type="date">
+                </div>
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" class="formulario__textarea" th:text="${tarea.descripcion}"></textarea>
+                </div>
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="lider">Líder de la tarea:</label>
+                    <select id="lider" name="liderId" required class="formulario__input">
+                        <option value="" disabled selected>Seleccione un líder</option>
+                        <option th:each="voluntario : ${voluntarios}"
+                                th:value="${voluntario.idUsuario}"
+                                th:text="${voluntario.nombreUsuario}"
+                                th:selected="${tarea.grupo.obtenerLider() != null and tarea.grupo.obtenerLider().idUsuario == voluntario.idUsuario}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="acciones">
+                    <input class="formulario__submit" type="submit" value="Guardar cambios">
+                    <a href="" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

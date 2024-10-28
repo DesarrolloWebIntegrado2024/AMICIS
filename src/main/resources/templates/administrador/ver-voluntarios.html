@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMICIS</title>
+    <link rel="stylesheet" th:href="@{/css/administrador/admi.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="dashboard">
+
+<header>
+    <div class="dashboard__header">
+        <div class="header__logo">Amicis</div>
+        <div class="header__admin">
+            <p>Bienvenido, <span th:text="${session.usuario.nombreUsuario}"></span>!</p>
+        </div>
+        <nav>
+            <a href="/logout" class="header__session">Cerrar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<!-- grid -->
+
+<div class="grid">
+
+    <aside class="sidebar">
+        <div class="menu" th:replace="~{fragments/nav-admin :: nav-admin}"></div>
+    </aside>
+
+    <div class="content__transform">
+        <div class="nav_mobile" th:replace="~{fragments/nav-mobile :: nav-mobile}"></div>
+
+        <main class="informacion_tareas contenedor-m">
+
+            <h2 class="lista">Voluntarios</h2>
+
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Email</th> <!-- template de fechas -->
+                    <th scope="col">Teléfono</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="voluntario : ${voluntarios}">
+                    <td data-label="Nombre" th:text="${voluntario.nombreUsuario}"></td>
+                    <td data-label="Email" th:text="${voluntario.emailUsuario}"></td>
+                    <td data-label="Teléfono" th:text="${voluntario.telefonoUsuario}"></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </main>
+    </div>
+</div>
+</body>
+
+</html>

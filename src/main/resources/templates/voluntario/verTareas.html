@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMICIS - Tareas</title>
+    <link rel="stylesheet" th:href="@{/css/voluntario/voluntario.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body class="dashboard">
+
+<header>
+    <div class="dashboard__header">
+        <div class="header__logo">Amicis</div>
+        <div class="header__admin">
+            <p>Bienvenido, <span th:text="${session.usuario.nombreUsuario}"></span>!</p>
+        </div>
+        <nav>
+            <a href="/logout" class="header__session">Cerrar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<div class="grid">
+    <aside class="sidebar">
+        <div class="menu" th:replace="~{voluntario/nav-voluntario :: nav-voluntario}"></div>
+    </aside>
+
+    <div class="content__transform">
+        <div class="nav_mobile" th:replace="~{fragments/nav-mobile :: nav-mobile}"></div>
+
+        <main class="contenido contenedor-sm">
+            <h2 class="lista">¡Inscríbete en una tarea y únete a la aventura!</h2>
+
+            <div id="filtros" class="filtros">
+                <div class="filtros-inputs">
+                    <h2>Filtros:</h2>
+                    <div class="campo">
+                        <label for="todas">Todas</label>
+                        <input type="radio" id="todas" name="filtro" value="" checked>
+                    </div>
+                    <div class="campo">
+                        <label for="completadas">Llena</label>
+                        <input type="radio" id="completadas" name="filtro" value="1">
+                    </div>
+                    <div class="campo">
+                        <label for="pendientes">Vacía</label>
+                        <input type="radio" id="pendientes" name="filtro" value="0">
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <section class="informacion_tareas contenedor-m">
+            <table>
+                <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Fecha Inicio</th>
+                    <th scope="col">Fecha Fin</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Cupos</th>
+                    <th scope="col">Seleccionar</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="tarea : ${tareas}">
+                    <td data-label="Nombre" th:text="${tarea.nombre}">Nombre de la tarea</td>
+                    <td data-label="Fecha Inicio" th:text="${tarea.fechaInicio}">03/01/2024</td>
+                    <td data-label="Fecha Fin" th:text="${tarea.fechaFin}">03/31/2025</td>
+                    <td data-label="Descripción" th:text="${tarea.descripcion}">Descripción de la tarea</td>
+                    <td data-label="Vacantes" th:text="${5 - tarea.grupo.voluntarios.size()}"></td>
+
+                    <td>
+                        <form th:action="@{/tarea/inscribir}" method="post">
+                            <input type="hidden" name="grupoId" th:value="${tarea.grupo.id}"/>
+
+                            <!-- Botón para registrarse en la tarea -->
+                            <button type="submit"
+                                    th:class="${tarea.estadoTarea.name() == 'COMPLETA' ? 'tarea-completa' :
+                            (tarea.grupo.voluntarios.size() >= 5 ? 'no-cupo' : (tarea.grupo.voluntarios.contains(session.usuario) ? 'ya-inscrito' : 'registrarse'))}"
+                                    th:disabled="${tarea.estadoTarea.name() == 'COMPLETA'
+                            || tarea.grupo.voluntarios.size() >= 5
+                            || tarea.grupo.voluntarios.contains(session.usuario)}">
+                                <i class="fas"
+                                   th:class="${tarea.estadoTarea.name() == 'COMPLETA' ? 'fa-check' :
+                          (tarea.grupo.voluntarios.size() >= 5 ? 'fa-ban' : 'fa-user-plus')}"></i>
+                                <span th:text="${tarea.estadoTarea.name() == 'COMPLETA' ? 'Tarea Completa'
+                : (tarea.grupo.voluntarios.size() >= 5 ? 'No hay cupo'
+                : (tarea.grupo.voluntarios.contains(session.usuario) ? 'Ya inscrito' : 'Registrarme'))}"></span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+
+</body>
+</html>

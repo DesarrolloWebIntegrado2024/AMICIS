@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMICIS</title>
+    <link rel="stylesheet" th:href="@{/css/administrador/admi.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+<body class="dashboard">
+
+<header>
+    <div class="dashboard__header">
+        <div class="header__logo">Amicis</div>
+        <div class="header__admin">
+            <p>Bienvenido, <span th:text="${session.usuario.nombreUsuario}"></span>!</p>
+        </div>
+        <nav>
+            <a href="/logout" class="header__session">Cerrar Sesión</a>
+        </nav>
+    </div>
+</header>
+
+<!-- grid -->
+<div class="grid">
+
+    <aside class="sidebar">
+        <div class="menu" th:replace="~{fragments/nav-admin :: nav-admin}"></div>
+    </aside>
+
+    <div class="content__transform">
+        <div class="nav_mobile" th:replace="~{fragments/nav-mobile :: nav-mobile}"></div>
+
+        <main class="contenedor-formulario">
+            <h2 class="lista">Crear Tarea</h2>
+
+            <!-- Mensajes de error y éxito -->
+            <div th:if="${error}" style="color:red;" th:text="${error}"></div>
+            <div th:if="${mensaje}" style="color:green;" th:text="${mensaje}"></div>
+
+            <form class="formulario" id="form-nueva-tarea" th:action="@{/tarea/crear}" method="post">
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="nombre">Nombre de Tarea:</label>
+                    <input id="nombre" name="nombre" required class="formulario__input" type="text" placeholder="Ej. Mantenimiento en Áreas Verdes">
+                </div>
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="fechaInicio">Fecha de Inicio:</label>
+                    <input id="fechaInicio" name="fechaInicio" required class="formulario__input" type="date"> <!-- Aquí está corregido -->
+                </div>
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="fechaFin">Fecha de Finalización:</label>
+                    <input class="formulario__input" type="date" id="fechaFin" name="fechaFin">
+                </div>
+
+                <div class="formulario__datos">
+                    <label class="formulario__label" for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" class="formulario__textarea"></textarea>
+                </div>
+
+                <input class="formulario__submit" type="submit" value="Crear Tarea">
+            </form>
+        </main>
+
+    </div>
+</div>
+</body>
+
+</html>

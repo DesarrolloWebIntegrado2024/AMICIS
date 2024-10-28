@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros</title>
+    <!-- Enlace a tu hoja de estilos con Thymeleaf -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<!-- Incluir la barra de navegación -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<main class="informacion__nosotros contenedor-m">
+    <h1>Sobre Nosotros</h1>
+    <div class="promocion__contacto">
+        <picture>
+            <!-- Uso de Thymeleaf para imágenes -->
+            <source th:srcset="@{/images/img5.avif}" type="image/avif">
+            <source th:srcset="@{/images/img5.webp}" type="image/webp">
+            <img th:src="@{/images/img5.jpg}" alt="Descripción de la imagen">
+        </picture>
+    </div>
+    <p>En AMICIS, creemos en el poder del voluntariado para transformar vidas y comunidades...</p>
+</main>
+
+<section class="seccion contenedor-m">
+    <div class="nosotros">
+        <h1>Nuestros principios</h1>
+        <div class="nosotros__contenido">
+            <div class="nosotros__card">
+                <img th:src="@{/images/ayuda.svg}" alt="Logo">
+                <h2>Solidaridad</h2>
+                <p class="nosotros__texto">Estamos aquí para ofrecer ayuda a quienes más lo necesitan.</p>
+            </div>
+            <div class="nosotros__card">
+                <img th:src="@{/images/amr.svg}" alt="Amabilidad">
+                <h2>Amabilidad</h2>
+                <p class="nosotros__texto">Nuestro compromiso es brindar amor y cariño a todos los necesitados.</p>
+            </div>
+            <div class="nosotros__card">
+                <img th:src="@{/images/planeta.svg}" alt="Empatía">
+                <h2>Empatía</h2>
+                <p class="nosotros__texto">Llegamos a todos los rincones para apoyar a quienes más lo requieren.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Incluir el fragmento del footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- Incluir tu archivo JS -->
+<script th:src="@{/static/js/app.js}"></script>
+</body>
+</html>

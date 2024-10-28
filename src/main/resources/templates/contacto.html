@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Información AMICIS</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Incluir la barra de navegación -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<!-- Contenido de la página de contacto -->
+<main class="informacion__contacto main contenedor-m">
+  <h1>¿Deseas obtener información extra sobre AMICIS?</h1>
+  <p>Estamos emocionados de conocer a personas apasionadas que quieran hacer una diferencia. Por favor, completa el siguiente formulario para que podamos conocerte mejor y discutir las oportunidades disponibles.</p>
+</main>
+
+<section class="seccion contenedor-sm">
+  <!-- Mostrar mensajes si existen -->
+  <div th:if="${mensaje}" class="alert alert-success">
+    <p th:text="${mensaje}"></p>
+  </div>
+  <div th:if="${error}" class="alert alert-danger">
+    <p th:text="${error}"></p>
+  </div>
+
+  <!-- Formulario de contacto -->
+  <form th:action="@{/contacto}" method="POST" th:object="${mensajeContacto}" class="formulario">
+    <h2>Llena el formulario de contacto para recibir tu petición</h2>
+
+    <div class="campo">
+      <label for="nombre">Nombre</label>
+      <input type="text" th:field="*{nombre}" id="nombre" placeholder="Nombre completo" required>
+    </div>
+
+    <div class="campo">
+      <label for="telefono">Teléfono</label>
+      <input type="tel" th:field="*{telefono}" id="telefono" placeholder="Tu teléfono" pattern="[0-9]{10}" required>
+    </div>
+
+    <div class="campo">
+      <label for="email">Email</label>
+      <input type="email" th:field="*{email}" id="email" placeholder="Tu email" required>
+    </div>
+
+    <div class="campo">
+      <label for="mensaje">Mensaje</label>
+      <textarea th:field="*{mensaje}" id="mensaje" placeholder="Tu mensaje" rows="5" required></textarea>
+    </div>
+
+    <div class="campo">
+      <label for="asunto">Asunto</label>
+      <select th:field="*{asunto}" id="asunto" required>
+        <option value="">Selecciona un asunto</option>
+        <option value="consulta">Consulta</option>
+        <option value="soporte">Soporte</option>
+        <option value="sugerencia">Sugerencia</option>
+        <option value="otro">Otro</option>
+      </select>
+    </div>
+
+    <div class="accion">
+      <input type="submit" value="Enviar" class="boton">
+    </div>
+  </form>
+</section>
+
+<!-- Incluir el fragmento del footer -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

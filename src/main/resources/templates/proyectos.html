@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proyectos AMICIS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}"> <!-- Incluye tu hoja de estilos aquí -->
+</head>
+
+<body>
+
+<!-- Incluir la barra de navegación -->
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<main class="informacion__contacto contenedor-m">
+  <h1>¿No estás seguro de unirte?</h1>
+  <p>¡Te entendemos! Aquí te mostramos algunos de los proyectos que hemos llevado a cabo. Estos proyectos no solo
+    han tenido un gran impacto en las comunidades, sino que también han sido una experiencia enriquecedora para
+    nuestros voluntarios.</p>
+</main>
+
+<section class="contenedor-m seccion">
+  <div class="presentacion">
+    <h1>Nuestros proyectos</h1>
+  </div>
+  <div class="image-grid">
+    <div class="image-grid__item image-grid__item--large-vertical">
+      <img th:src="@{/images/img1.webp}" alt="Image 1" class="image-grid__img">
+    </div>
+    <div class="image-grid__item image-grid__item--large-horizontal">
+      <img th:src="@{/images/img3.webp}" alt="Image 3" class="image-grid__img">
+    </div>
+    <div class="image-grid__item image-grid__item--small-horizontal">
+      <img th:src="@{/images/img2.webp}" alt="Image 2" class="image-grid__img">
+    </div>
+    <div class="image-grid__item image-grid__item--medium">
+      <img th:src="@{/images/img4.webp}" alt="Image 4" class="image-grid__img">
+    </div>
+  </div>
+</section>
+
+<!-- Incluir el fragmento del footer -->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
