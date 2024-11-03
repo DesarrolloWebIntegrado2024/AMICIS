@@ -23,16 +23,6 @@ public class TareaController {
     @Autowired
     private VoluntarioService voluntarioService;
 
-    // Mostrar formulario de creación de tarea (solo para administradores)
-    @GetMapping("/crear")
-    public String mostrarFormularioCrearTarea(Model model, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario instanceof Administrador) {
-            model.addAttribute("tarea", new Tarea());
-            return "administrador/crearTarea"; // HTML: crearTarea.html
-        }
-        return "redirect:/login";
-    }
 
     @PostMapping("/crear")
     public String crearTarea(@ModelAttribute Tarea tarea, HttpSession session) {
