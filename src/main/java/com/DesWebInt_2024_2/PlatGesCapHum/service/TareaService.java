@@ -42,6 +42,18 @@ public class TareaService {
         return tareaRepository.findAll(); // Retorna todas las tareas
     }
 
+    public List<Tarea> obtenerTareasPorEstado(Tarea.EstadoTarea estado) {
+        return tareaRepository.findByEstadoTarea(estado); // Filtrar las tareas por estado
+    }
+
+    public List<Tarea> obtenerTareasLlenas() {
+        return tareaRepository.findByGrupoVoluntariosExactSize(5); // Tareas sin cupos disponibles
+    }
+
+    public List<Tarea> obtenerTareasVacias() {
+        return tareaRepository.findByGrupoVoluntariosSizeLessThan(5); // Tareas con cupos disponibles
+    }
+
     // Método para inscribir un voluntario a una tarea
     public boolean inscribirVoluntario(Long tareaId, Voluntario voluntario) {
         Optional<Tarea> tareaOptional = findById(tareaId);

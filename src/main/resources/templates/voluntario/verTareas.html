@@ -36,21 +36,29 @@
             <h2 class="lista">¡Inscríbete en una tarea y únete a la aventura!</h2>
 
             <div id="filtros" class="filtros">
-                <div class="filtros-inputs">
-                    <h2>Filtros:</h2>
-                    <div class="campo">
-                        <label for="todas">Todas</label>
-                        <input type="radio" id="todas" name="filtro" value="" checked>
+                <form action="/voluntario/tareas" method="get" id="filtroForm">
+                    <div class="filtros-inputs">
+                        <h2>Filtros:</h2>
+                        <div class="campo">
+                            <label for="todas">Todas</label>
+                            <input type="radio" id="todas" name="filtro" value="todas"
+                                   th:checked="${filtro == 'todas'}"
+                                   onclick="this.form.submit()">
+                        </div>
+                        <div class="campo">
+                            <label for="llena">Llena</label>
+                            <input type="radio" id="llena" name="filtro" value="llena"
+                                   th:checked="${filtro == 'llena'}"
+                                   onclick="this.form.submit()">
+                        </div>
+                        <div class="campo">
+                            <label for="vacía">Vacía</label>
+                            <input type="radio" id="vacía" name="filtro" value="vacía"
+                                   th:checked="${filtro == 'vacía'}"
+                                   onclick="this.form.submit()">
+                        </div>
                     </div>
-                    <div class="campo">
-                        <label for="completadas">Llena</label>
-                        <input type="radio" id="completadas" name="filtro" value="1">
-                    </div>
-                    <div class="campo">
-                        <label for="pendientes">Vacía</label>
-                        <input type="radio" id="pendientes" name="filtro" value="0">
-                    </div>
-                </div>
+                </form>
             </div>
         </main>
 

@@ -20,6 +20,5 @@ function inciarSlider() {
         cominezaSlider(currentIndex);
         setInterval(siguienteSlider, slideInterval);
     }
-
     startSlider();
 }

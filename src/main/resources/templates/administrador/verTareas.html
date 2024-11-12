@@ -36,21 +36,26 @@
             <h2 class="lista">Lista de Tareas</h2>
 
             <div id="filtros" class="filtros">
-                <div class="filtros-inputs">
-                    <h2>Filtros:</h2>
-                    <div class="campo">
-                        <label for="todas">Todas</label>
-                        <input type="radio" id="todas" name="filtro" value="" checked>
+                <form action="/admin/tareas" method="get">
+                    <div class="filtros-inputs">
+                        <h2>Filtros:</h2>
+                        <div class="campo">
+                            <label for="todas">Todas</label>
+                            <input type="radio" id="todas" name="estado" value="todas"
+                                   th:checked="${estado == 'todas'}" onchange="this.form.submit()">
+                        </div>
+                        <div class="campo">
+                            <label for="completadas">Completadas</label>
+                            <input type="radio" id="completadas" name="estado" value="1"
+                                   th:checked="${estado == '1'}" onchange="this.form.submit()">
+                        </div>
+                        <div class="campo">
+                            <label for="pendientes">Pendientes</label>
+                            <input type="radio" id="pendientes" name="estado" value="0"
+                                   th:checked="${estado == '0'}" onchange="this.form.submit()">
+                        </div>
                     </div>
-                    <div class="campo">
-                        <label for="completadas">Completadas</label>
-                        <input type="radio" id="completadas" name="filtro" value="1">
-                    </div>
-                    <div class="campo">
-                        <label for="pendientes">Pendientes</label>
-                        <input type="radio" id="pendientes" name="filtro" value="0">
-                    </div>
-                </div>
+                </form>
             </div>
         </main>
 
@@ -74,10 +79,10 @@
 
                     <!-- Mostrar el nombre del líder del grupo -->
                     <td>
-                <span th:if="${tarea.grupo != null}">
-                    <span th:if="${tarea.grupo.obtenerLider() != null}" th:text="${tarea.grupo.obtenerLider().nombreUsuario}"></span>
-                    <span th:unless="${tarea.grupo.obtenerLider() != null}">Líder no asignado</span>
-                </span>
+                        <span th:if="${tarea.grupo != null}">
+                            <span th:if="${tarea.grupo.obtenerLider() != null}" th:text="${tarea.grupo.obtenerLider().nombreUsuario}"></span>
+                            <span th:unless="${tarea.grupo.obtenerLider() != null}">Líder no asignado</span>
+                        </span>
                     </td>
 
                     <td th:text="${tarea.estadoTarea.name()}">Pendiente</td>
@@ -110,6 +115,7 @@
             </table>
         </section>
     </div>
-    </div>
-    </body>
+</div>
+
+</body>
 </html>

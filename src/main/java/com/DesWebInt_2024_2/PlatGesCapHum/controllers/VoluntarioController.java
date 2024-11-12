@@ -54,28 +54,32 @@ public class VoluntarioController {
 
 
     @GetMapping("/tareas")
-    public String verTareas(Model model, HttpSession session) {
+    public String verTareas(
+            @RequestParam(value = "filtro", defaultValue = "todas") String filtro,
+            Model model,
+            HttpSession session) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario != null && usuario instanceof Voluntario) {
+            List<Tarea> tareas;
 
-        if (usuario == null) {
-            return "redirect:/login"; // Redirigir si no hay usuario en sesión
-        }
-        if (usuario instanceof Voluntario) {
-            Voluntario voluntario = (Voluntario) usuario;
-
-            List<Tarea> todasLasTareas = tareaService.obtenerTodasLasTareas();
-            List<Tarea> tareasInscritas = new ArrayList<>();
-
-            for (Tarea tarea : todasLasTareas) {
-                // Verificar si el voluntario está inscrito en el grupo de la tarea
-                if (tarea.getGrupo() != null && verificarVoluntarioEnGrupo(voluntario, tarea.getGrupo())) {
-                    tareasInscritas.add(tarea);
-                }
+            switch (filtro) {
+                case "llena":
+                    tareas = tareaService.obtenerTareasLlenas();
+                    break;
+                case "vacía":
+                    tareas = tareaService.obtenerTareasVacias();
+                    break;
+                default:
+                    tareas = tareaService.obtenerTodasLasTareas();
+                    break;
             }
-            model.addAttribute("tareas", todasLasTareas);
-            model.addAttribute("tareasInscritas", tareasInscritas);
+
+            model.addAttribute("tareas", tareas);
+            model.addAttribute("filtro", filtro); // Pasar el filtro seleccionado al modelo
             return "voluntario/verTareas";
         }
+
         return "redirect:/login";
     }
 

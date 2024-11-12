@@ -9,10 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,13 +43,32 @@ public class AdmiController {
 
     // Mostrar todas las tareas (solo para administradores)
     @GetMapping("/tareas")
-    public String verTareas(Model model, HttpSession session) {
+    public String verTareas(
+            @RequestParam(value = "estado", defaultValue = "todas") String estado,
+            Model model,
+            HttpSession session) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario != null && usuario instanceof Administrador) {
-            List<Tarea> tareas = tareaService.obtenerTodasLasTareas();
+            List<Tarea> tareas;
+
+            switch (estado) {
+                case "1":
+                    tareas = tareaService.obtenerTareasPorEstado(Tarea.EstadoTarea.COMPLETA);
+                    break;
+                case "0":
+                    tareas = tareaService.obtenerTareasPorEstado(Tarea.EstadoTarea.PENDIENTE);
+                    break;
+                default:
+                    tareas = tareaService.obtenerTodasLasTareas();
+                    break;
+            }
+
             model.addAttribute("tareas", tareas);
-            return "administrador/verTareas"; // HTML: verTareas.html
+            model.addAttribute("estado", estado); // Pasar el estado seleccionado al modelo
+            return "administrador/verTareas";
         }
+
         return "redirect:/login";
     }
 
